@@ -11,25 +11,23 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('posts', function (Blueprint $table) {
             $table->id();
-            $table->string('email')->unique();
-            $table->string('username')->unique();
-            $table->string('password');
-            $table->string('firstname');
-            $table->string('lastname')->nullable();
-            $table->rememberToken();
+            $table->string('title');
+            $table->text('news_content');
+            $table->unsignedBigInteger('author');
             $table->timestamps();
 
             $table->softDeletes();
+            $table->foreign('author')->references('id')->on('users');
         });
     }
 
-    /**
+    /** 
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('posts');
     }
 };
