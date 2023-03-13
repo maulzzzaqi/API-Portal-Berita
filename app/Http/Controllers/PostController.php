@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\PostDetailResource;
 use App\Http\Resources\PostResource;
 use App\Models\Post;
 use Illuminate\Http\Request;
@@ -9,8 +10,18 @@ use Illuminate\Http\Request;
 class PostController extends Controller
 {
     public function index(){
-        $post = Post::all();
+        $posts = Post::all();
         // return response()->json($post);
-        return PostResource::collection($post);
+        return PostResource::collection($posts);
+    }
+
+    public function show2($id){
+        $post = Post::with('writer:id,username,email')->findOrFail($id);
+        return new PostDetailResource($post);
+    }
+
+    public function show($id){
+        $post = Post::findOrFail($id);
+        return new PostDetailResource($post);
     }
 }
