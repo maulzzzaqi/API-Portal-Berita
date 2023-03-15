@@ -18,8 +18,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth:sanctum'])->group(function(){
     Route::get('/posts', [PostController::class, 'index'])->middleware(['auth:sanctum']);
+    Route::get('/postsindex', [PostController::class, 'index2'])->middleware(['auth:sanctum']);
     Route::get('/posts/{id}', [PostController::class, 'show'])->middleware(['auth:sanctum']);
     Route::post('/posts', [PostController::class, 'store']);
+    Route::patch('/posts/{id}', [PostController::class, 'update'])->middleware(['post.owner']);
 
     Route::get('/logout', [AuthenticationController::class, 'logout'])->middleware('auth:sanctum');
     Route::get('/account', [AuthenticationController::class, 'account'])->middleware('auth:sanctum');

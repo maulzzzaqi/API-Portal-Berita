@@ -16,6 +16,11 @@ class PostController extends Controller
         return PostResource::collection($posts);
     }
 
+    public function index2(){
+        $post = Post::all();
+        return PostDetailResource::collection($post->loadMissing('writer:id,username,email'));
+    }
+
     public function show2($id){
         $post = Post::with('writer:id,username,email')->findOrFail($id);
         return new PostDetailResource($post);
@@ -37,6 +42,16 @@ class PostController extends Controller
 
         $post = Post::create($request->all());
         return new PostDetailResource($post->loadMissing('writer:id,username'));
+
+    }
+
+    public function update(Request $request, $id){
+        $request -> validate([
+            'title' => 'required|max:255',
+            'news_content' => 'required',
+        ]);
+
+        return response()->json('successfully edited');
 
     }
 
