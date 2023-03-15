@@ -22,6 +22,7 @@ Route::middleware(['auth:sanctum'])->group(function(){
     Route::get('/posts/{id}', [PostController::class, 'show'])->middleware(['auth:sanctum']);
     Route::post('/posts', [PostController::class, 'store']);
     Route::patch('/posts/{id}', [PostController::class, 'update'])->middleware(['post.owner']);
+    Route::delete('/posts/{id}', [PostController::class, 'delete'])->middleware(['post.owner']);
 
     Route::get('/logout', [AuthenticationController::class, 'logout'])->middleware('auth:sanctum');
     Route::get('/account', [AuthenticationController::class, 'account'])->middleware('auth:sanctum');
