@@ -51,7 +51,10 @@ class PostController extends Controller
             'news_content' => 'required',
         ]);
 
-        return response()->json('successfully edited');
+        $post = Post::findOrFail($id);
+        $post->update($request->all());
+        // return response()->json('successfully edited');
+        return new PostDetailResource($post->loadMissing('writer:id,username'));
 
     }
 
