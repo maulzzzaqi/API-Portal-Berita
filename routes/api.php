@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthenticationController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\PostController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -17,6 +18,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware(['auth:sanctum'])->group(function(){
+    // News
     Route::get('/posts', [PostController::class, 'index'])->middleware(['auth:sanctum']);
     Route::get('/postsindex', [PostController::class, 'index2'])->middleware(['auth:sanctum']);
     Route::get('/posts/{id}', [PostController::class, 'show'])->middleware(['auth:sanctum']);
@@ -24,6 +26,10 @@ Route::middleware(['auth:sanctum'])->group(function(){
     Route::patch('/posts/{id}', [PostController::class, 'update'])->middleware(['post.owner']);
     Route::delete('/posts/{id}', [PostController::class, 'delete'])->middleware(['post.owner']);
 
+    // Comments
+    Route::post('/comment', [CommentController::class, 'store']);
+
+    // Auth
     Route::get('/logout', [AuthenticationController::class, 'logout'])->middleware('auth:sanctum');
     Route::get('/account', [AuthenticationController::class, 'account'])->middleware('auth:sanctum');
 });
