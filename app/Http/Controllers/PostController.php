@@ -13,7 +13,8 @@ class PostController extends Controller
     public function index(){
         $posts = Post::all();
         // return response()->json($post);
-        return PostResource::collection($posts);
+        // return PostResource::collection($posts);
+        return PostResource::collection($posts->loadMissing('writer:id,username,email', 'comments:id,post_id,user_id,comments_content'));
     }
 
     public function index2(){
@@ -27,7 +28,7 @@ class PostController extends Controller
     }
 
     public function show($id){
-        $post = Post::findOrFail($id);
+        $post = Post::with('writer:id,username', 'comments:id,post_id,user_id,comments_content')->findOrFail($id);
         return new PostDetailResource($post);
     }
 
